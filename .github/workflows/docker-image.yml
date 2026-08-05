@@ -27,7 +27,7 @@ jobs:
       run: docker build . --file Dockerfile --tag j3-todo-api:latest
 
     - name: Add tag before push
-      run: docker tag j2-click-fast:latest ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:latest
+      run: docker tag j3-todo-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:latest
 
     - name: Push on Docker Hub
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:latest
