@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "sakagnir/J3_cours_devops",
+  "pipelineDirectory": "J3_cours_devops",
+  "workspaceDirectory": "J3_cours_devops\\J3_cours_devops",
+  "repositories": {
+    "sakagnir/J3_cours_devops": {
+      "repositoryPath": "J3_cours_devops\\J3_cours_devops",
+      "lastRunOn": "08/05/2026 17:23:02 +02:00"
+    }
+  },
+  "lastRunOn": "08/05/2026 17:23:02 +02:00"
+}

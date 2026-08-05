@@ -1,0 +1,9 @@
+services:
+  todo-api:
+    container_name: todo-api
+
+    image: sakagnir/j3-todo-api:latest
+
+  todo-db:
+    container_name: todo-db
+    image: postgres:16-alpine
