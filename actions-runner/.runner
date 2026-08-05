@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 2,
+  "agentName": "PC-PORTABLE",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus23.actions.githubusercontent.com/PfcbL4RL6VgiK9SfvdOIMRNGuEt8QaJljcZuldyiADFFwNs1G7/",
+  "gitHubUrl": "https://github.com/sakagnir/J3_cours_devops",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}
