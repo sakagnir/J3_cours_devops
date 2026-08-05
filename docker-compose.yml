@@ -1,0 +1,5 @@
+services:
+  click-fast:
+    build: .
+    ports:
+      - 50:50
