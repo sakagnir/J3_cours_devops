@@ -18,8 +18,10 @@ app.use('/api/tasks', taskRoutes.getAllTasks());
 // Error handling
 // app.use(errorHandler);
 
-app.listen(50, () => {
-    console.log('server started');
-})
+if (require.main === module) {
+    app.listen(50, () => {
+        console.log('server started');
+    })
+}
 
 module.exports = app;
