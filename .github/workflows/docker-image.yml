@@ -19,7 +19,7 @@ jobs:
       - run: npm run test
 
       - name: Add tag before push
-        run: docker tag j3-todo-api:${{steps.tag.outputs.TAG}} ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:${{steps.tag.outputs.TAG}}
+        run: docker tag j3-todo-api:${{steps.tag.outputs.TAG}} ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:${{steps.tag.outputs}}
         
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag j3-todo-api:${{steps.tag.outputs.TAG}}
