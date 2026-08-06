@@ -10,3 +10,4 @@ RUN chmod 600 /root/.ssh/authorized_keys
 RUN printf '#!/bin/sh\n/usr/sbin/sshd\nexec dockerd-entrypoint.sh "$@"\n' > /start.sh \
 && chmod +x /start.sh
 ENTRYPOINT ["/start.sh"]
+HEALTHCHECK --interval=1m --timeout=30s --retries=3 CMD curl --fail http://localhost:3000 || exit 1

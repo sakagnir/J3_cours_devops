@@ -3,7 +3,24 @@ services:
     container_name: todo-api
 
     image: sakagnir/j3-todo-api:latest
+    depends_on:
+      todo-db:
+        condition: service_healthy
+        restart: true
 
   todo-db:
     container_name: todo-db
     image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: todo
+      POSTGRES_PASSWORD: todo
+      POSTGRES_DB: todo
+    volumes:
+      - todo-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todo -d todo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  todo-db-data:

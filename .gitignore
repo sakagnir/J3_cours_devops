@@ -2,3 +2,4 @@ node_modules
 .git
 deploy_key
 actions-runner/_diag
+.env.local
