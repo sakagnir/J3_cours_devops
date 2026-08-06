@@ -12,27 +12,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set tag
-        run: echo "TAG=$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())" >> $env:GITHUB_ENV
+        id: tag
+        run: echo "TAG=$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())" >> $GITHUB_OUTPUT
 
       - run: npm install
       - run: npm run test
 
       - name: Add tag before push
-        run: docker tag j3-todo-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:${{env.TAG}}
+        run: docker tag j3-todo-api:${{steps.tag.outputs.TAG}} ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:${{steps.tag.outputs.TAG}}
         
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag j3-todo-api:${{env.TAG}}
+        run: docker build . --file Dockerfile --tag j3-todo-api:${{steps.tag.outputs.TAG}}
 
+      - uses: docker/login-action@v3
+        with: 
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  
+      - name: Push on Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:${{steps.tag.outputs.TAG}}
   deploy:
     needs: [build]
     runs-on: self-hosted
-    
+    if: github.ref == 'refs/heads'
     steps:
-    - uses: docker/login-action@v3
-      with: 
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{secrets.DEPLOY_SSH_KEY}}
+      - name: Copy compose.yml to target
+        run: scp -o StrictHostKeyChecking=no compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/srv/todo/compose.yml
 
-    - name: Push on Docker Hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:${{env.TAG}}
-
+      - run: cd /srv/todo && TAG=${{steps.tag.outputs.TAG}} docker compose up -d
