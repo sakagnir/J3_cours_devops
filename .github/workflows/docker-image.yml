@@ -22,11 +22,11 @@ jobs:
     - run: npm run test
         
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag j3-todo-api:$(date+%s)
+      run: docker build . --file Dockerfile --tag j3-todo-api:$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
 
     - name: Add tag before push
-      run: docker tag j3-todo-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:$(date+%s)
+      run: docker tag j3-todo-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
 
     - name: Push on Docker Hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:$(date+%s)
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/j3-todo-api:$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
 
