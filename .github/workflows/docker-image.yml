@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Set tag
-      run: date +%s >> $env:GITHUB_ENV
+      run: echo "TAG=$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())" >> $env:GITHUB_ENV
 
     - uses: actions/checkout@v4
 
